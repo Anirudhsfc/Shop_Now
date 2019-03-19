@@ -16,7 +16,7 @@
         <div class="top flex-row">
             
 
-            <h2>Shop Now</h2>
+            <h2 onclick=reload()>Shop Now</h2>
             <i class="fa fa-shopping-cart " style="font-size: 40px;" onclick="changeHTML()"></i>
             <p id="itemsInCart"></p>
         </div>
@@ -48,8 +48,8 @@
            
         </div>
         <h1 id="final"></h1>
-        <h2 id="finalP"></h2>
-        <h2 id="finalC"></h2>
+        <h3 id="finalP"></h3>
+        <h3 id="finalC" onclick=reload()>Continue Browsing</h3>
         <div class="end flex-row">
             <div id="subtotal">
 
@@ -57,9 +57,7 @@
             <div id="subtotalPrice">
 
             </div>
-            <button id="checkOut" onclick="checkOut()">
-                Proceed To Check Out
-            </button>
+            
             <p class="previous" onclick="loadPreviousPage()">Previous Page</p>
             <select class="pageDropdown" onchange="loadSpecifiedPage(value)">
                 <option value="1">1</option>
@@ -69,6 +67,11 @@
             </select>
             <p class="next" onclick="loadNextPage()">Next Page</p>
             
+        </div>
+        <div id="btnCheckout">
+            <button id="checkOut" onclick="checkOut()">
+                Proceed To Check Out
+            </button>
         </div>
 
     </div>
@@ -92,7 +95,10 @@
         //         });
         //     });
         // }
+            function reload(){
 
+                location.reload();
+            }
         function checkOut() {
             $('.middle').hide();
             $('.end').hide();
@@ -105,10 +111,10 @@
                 // console.log("inside json of add to cart");
                 console.log("num of Items in Cart are =" + numOfItems);
                 $('#itemsInCart').text(0);
-                $('#final').text("You have successfully placed order for " + numOfItems + "items");
+                $('#final').text("You have successfully placed order for " + numOfItems + " items");
                 console.log("total price you are paying is"+bill);
                 $('#finalP').text("$"+bill+"  Paid");
-                $('#finalC').text("Continue Browsing");
+                
 
 
             });
@@ -186,6 +192,7 @@
             $("#subtotal").show();
             $("#quantity").show();
             $("#description").css({"flex":"20%"});
+            $(".end").css({"padding":"20px","padding-left":"300px"});
            
             // document.getElementsByClassName("styleheader1").innerHTML = "Shopping Cart";
             $.getJSON("handleCartContent.php", function (item) {
@@ -199,11 +206,11 @@
                     $("#description").append("<div id=\'outerDiv\'>" + row['itemDescription'] + "</div>");
                     $("#price").append("<div id=\'outerDiv\'>" + row['itemPrice'] + "</div>");
 
-                    $("#quantity").append("<div id=\'outerDiv\'><input id=\'" + row['itemPrice'] + "\'type=\'number\' min=\'0\' placeholder=\'" + row['itemID'] + "\' defaultValue=\'" + row['itemQuantity'] + "\' value=\'" + row['itemQuantity'] + "\' onchange=\'changeCartValue(this)\' ></input></div>");
-                    $("#subtotal").text(row['numOfItems']);
+                    $("#quantity").append("<div id=\'outerDiv\'><input id=\'" + row['itemPrice'] + "\'type=\'number\' min=\'0\' placeholder=\'" + row['itemID'] + "\' defaultValue=\'" + row['itemQuantity'] + "\' value=\'" + row['itemQuantity'] + "\' onchange=\'changeCartValue(this)\'  ></input></div>");
+                    $("#subtotal").text("Card subtotal for "+row['numOfItems']+" items=");
 
                 });
-                $("#subtotalPrice").text(total);
+                $("#subtotalPrice").text("HK$"+total);
             });
         }
 
@@ -456,7 +463,7 @@
                     $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \'  >");
                     // $("#imageDisplay").attr("src",searchPic);
                     
-                    $("#description").append("<div id=\'outerDiv\'><div id=\'descName\'>" + row['itemName'] + "</div><div id=\'descPrice\'>" + row['itemPrice'] + "</div><div id=\'descDesc\'>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button></div>");
+                    $("#description").append("<div id=\'outerDiv\'><div id=\'descName\'>" + row['itemName'] + "</div><div id=\'descPrice\'>" + "HK$"+row['itemPrice'] + "</div><div id=\'descDesc\'>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button></div>");
 
 
                 });
