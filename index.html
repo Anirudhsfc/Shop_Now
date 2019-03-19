@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <script src="jquery-3.3.1.js"></script>
+    <title>E-Commerce WEBSITE</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body onload="loadCategories(); loadInitialPage(); loadCartNumber()">
+
+    <div class="flex-column">
+        <header class="flex-row">
+            
+
+
+            <i class="fa fa-shopping-cart" style="font-size: 40px;" onclick="changeHTML()"></i>
+            <p id="itemsInCart"></p>
+        </header>
+
+        <section class="flex-row">
+
+
+            <div id="category">
+
+            </div>
+            <div id="imageDisplay">
+
+            </div>
+
+            <div id="name">
+
+            </div>
+
+            <div id="description">
+
+            </div>
+            <div id="price">
+
+
+            </div>
+            <div id="quantity" onchange="changeCartValue()">
+
+            </div>
+            <h1 hidden id="final"></h1>
+        </section>
+
+        <footer class="flex-row">
+            <div id="subtotal">
+
+            </div>
+            <div id="subtotalPrice">
+
+            </div>
+            <button id="checkOut" onclick="checkOut()">
+                Proceed To Check Out
+            </button>
+            <p class="previous" onclick="loadPreviousPage()">Previous Page</p>
+            <select class="pageDropdown" onchange="loadSpecifiedPage(value)">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+
+            </select>
+            <p class="next" onclick="loadNextPage()">Next Page</p>
+
+        </footer>
+
+    </div>
+    <div class="clickDisplay"></div>
+
+    <p hidden id="presentCategory"></p>
+
+
+
+
+
+    <script>
+
+        // function tester(){
+
+        //     console.log("insiode tester");
+
+        //     $.getJSON("handleAddToCart.php",function(nameReturned){
+        //         $(nameReturned).each(function(i,row){
+        //             console.log("i="+i);
+        //         });
+        //     });
+        // }
+
+        function checkOut() {
+            $.getJSON("handleAddToCart.php?itemID=" + -1 + "&updateNumber=" + 0, function (numOfItems) {
+
+                var bill=document.getElementById("subtotalPrice").innerText;
+                // console.log("inside json of add to cart");
+                console.log("num of Items in Cart are =" + numOfItems);
+                $('#itemsInCart').text(0);
+                $('#final').text("You have successfully placed order for " + numOfItems + "items");
+                console.log("total price you are paying is"+bill);
+                
+
+            });
+
+        }
+        function changeCartValue(obj) {
+
+
+
+            if (obj == undefined) {
+                console.log("undefined obj hai");
+            } else {
+                // console.log("counter is"+counter);
+                console.log("being called");
+                console.log(obj);
+                
+                    
+                arr=document.getElementById("quantity").childNodes;
+               
+                var oldValue = obj.defaultValue;
+                var newValue = obj.value;
+                var price = obj.id;
+                var itemID = obj.placeholder;
+                console.log("item id" + itemID);
+                console.log("old value is" + oldValue);
+                console.log("current value is" + newValue);
+                var update = newValue - oldValue;
+                obj.defaultValue = newValue;
+                var total=parseFloat(document.getElementById("subtotalPrice").innerText);
+                console.log("currentTotal is"+total);
+                console.log("updated old value is" + obj.defaultValue);
+                console.log("update number is" + update);
+                console.log("price is" + price);
+                total=total+price*update;
+              if(newValue==0){
+                  console.log("new value is zero");
+                  
+                  var removeElem=-1;
+              }else{
+                    var removeElem=0;
+              }
+                    
+                
+                $.getJSON("handleAddToCart.php?itemID=" + itemID + "&updateNumber=" + update+"&removeElem="+removeElem , function (numOfItems) {
+
+                    // console.log("inside json of add to cart");
+                    console.log("num of Items in Cart are =" + numOfItems);
+                    $('#itemsInCart').text(numOfItems);
+                    $('#subtotal').text(numOfItems);
+                    $('#subtotalPrice').text(total);
+                });
+
+                if(newValue==0){
+                    changeHTML();
+                }
+                
+            }
+        }
+        function changeHTML() {
+            $("#imageDisplay").empty();
+            $("#name").empty();
+            $("#description").empty();
+            $("#price").empty();
+            $("#quantity").empty();
+
+
+            // document.getElementById("category").display = "none";
+            // document.getElementsByClassName("previous").display = "none";
+            // document.getElementsByClassName("next").display = "none";
+
+            // document.getElementById("imageDisplay").display = "block";
+            // document.getElementById("name").display = "block";
+            // document.getElementById("description").display = "block";
+            // document.getElementById("price").display = "block";
+            // document.getElementById("subtotal").display = "block";
+            // document.getElementsByClassName("styleheader1").innerHTML = "Shopping Cart";
+            $.getJSON("handleCartContent.php", function (item) {
+                console.log("inside get jSON function of change html");
+                var total = 0;
+                $(item).each(function (i, row) {
+                    total = total + row['subtotalPrice'];
+                    console.log("ROW ITEM ID" + row['itemID']);
+                    $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
+                    $("#name").append("<div>" + row['itemName'] + "</div>");
+                    $("#description").append("<div>" + row['itemDescription'] + "</div>");
+                    $("#price").append("<div>" + row['itemPrice'] + "</div>");
+
+                    $("#quantity").append("<input id=\'" + row['itemPrice'] + "\'type=\'number\' min=\'0\' placeholder=\'" + row['itemID'] + "\' defaultValue=\'" + row['itemQuantity'] + "\' value=\'" + row['itemQuantity'] + "\' onchange=\'changeCartValue(this)\' ></input>");
+                    $("#subtotal").text(row['numOfItems']);
+
+                });
+                $("#subtotalPrice").text(total);
+            });
+        }
+
+        function addToCart(itemIDReceived) {
+            // document.getElementById("imageDisplay").display = "none";
+            // document.getElementById("name").display = "none";
+            // document.getElementById("description").display = "none";
+            // document.getElementById("price").display = "none";
+            // document.getElementById("subtotal").display = "none";
+            var updateNumber = 1;
+            // console.log("update Number="+updateNumber);
+            var itemID = itemIDReceived;
+            // console.log("item iddddd is"+itemID);
+
+            $.getJSON("handleAddToCart.php?itemID=" + itemID + "&updateNumber=" + updateNumber, function (numOfItems) {
+
+                // console.log("inside json of add to cart");
+                console.log("num of Items in Cart are =" + numOfItems);
+                $('#itemsInCart').text(numOfItems);
+            });
+
+        }
+        function loadCartNumber() {
+            // document.getElementById("imageDisplay").display = "none";
+            // document.getElementById("name").display = "none";
+            // document.getElementById("description").display = "none";
+            // document.getElementById("price").display = "none";
+            // document.getElementById("subtotal").display = "none";
+            // console.log("inside load Cart number ");
+            var itemID = 0;
+            var updateNumber = 0;
+            // console.log("itemID in load cart number ="+itemID);
+            $.getJSON("handleAddToCart.php?itemID=" + itemID + "&updateNumber=" + updateNumber, function (numOfItems) {
+                console.log("num of items on page load in cart" + numOfItems);
+                $('#itemsInCart').text(numOfItems);
+
+            });
+        }
+        function loadSpecifiedPage(pageSelected) {
+            // document.getElementById("imageDisplay").display = "none";
+            // document.getElementById("name").display = "none";
+            // document.getElementById("description").display = "none";
+            // document.getElementById("price").display = "none";
+            // document.getElementById("subtotal").display = "none";
+            console.log("page selected is" + pageSelected);
+            var presentCategory = $("#presentCategory").text();
+            if (!presentCategory) {
+                presentCategory = "Books";
+            }
+            $.getJSON("handleItemDisplay.php?show=" + presentCategory + "&page=" + pageSelected, function (item) {
+                console.log("inside get jSON function");
+                $(item).each(function (i, row) {
+                    console.log("inside each element of item");
+                    console.log("i is=" + i);
+                    console.log("row is =" + row);
+                    $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
+                    $("#description").append("<div>" + row['itemName'] + "</div><div>" + row['itemPrice'] + "</div><div>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button>");
+
+
+                });
+
+
+
+            });
+            $("#imageDisplay").empty();
+            $("#description").empty();
+        }
+        function loadCategoryFirstPage(elemClicked) {
+            // document.getElementById("imageDisplay").display = "none";
+            // document.getElementById("name").display = "none";
+            // document.getElementById("description").display = "none";
+            // document.getElementById("price").display = "none";
+            // document.getElementById("subtotal").display = "none";
+
+            localStorage.clear();
+
+            console.log("inside load Category first page");
+            var page = 1;
+            console.log("element cicked" + elemClicked.innerHTML);
+            $.get("handleItemDisplay.php?show=" + elemClicked.innerHTML + "&page=" + page, function (item1) {
+                console.log(item1);
+                var item = JSON.parse(item1);
+                console.log(item);
+                console.log("inside get jSON function");
+                $(item).each(function (i, row) {
+                    console.log("inside each element of item");
+                    console.log("i is=" + i);
+
+                    console.log("row name is =" + row['itemName']);
+                    $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
+                    $("#description").append("<div>" + row['itemName'] + "</div><div>" + row['itemPrice'] + "</div><div>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button>");
+                    $("#presentCategory").text(elemClicked.innerHTML);
+
+                });
+
+
+
+            });
+            $("#imageDisplay").empty();
+            $("#description").empty();
+
+
+        }
+        function loadPreviousPage() {
+            // document.getElementById("imageDisplay").display = "none";
+            // document.getElementById("name").display = "none";
+            // document.getElementById("description").display = "none";
+            // document.getElementById("price").display = "none";
+            // document.getElementById("subtotal").display = "none";
+            window.onbeforeunload = function (e) {
+                localStorage.clear();
+            }
+            var presentCategory = $("#presentCategory").text();
+            if (typeof (Storage) !== undefined) {
+
+                if (localStorage.clickCount) {
+                    if (localStorage.clickCount == 1) {
+                        localStorage.clickCount = 1;
+                    } else {
+                        localStorage.clickCount = Number(localStorage.clickCount) - 1;
+                    }
+                }
+                else {
+
+                    localStorage.clickCount = 1;
+                }
+            }
+
+            console.log("page on click=" + localStorage.clickCount);
+            var page = localStorage.clickCount;
+            $.getJSON("handleItemDisplay.php?show=" + presentCategory + "&page=" + page, function (item) {
+                console.log("inside get jSON function");
+                $(item).each(function (i, row) {
+                    console.log("inside each element of item");
+                    console.log("i is=" + i);
+                    console.log("row is =" + row);
+                    $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
+                    $("#description").append("<div>" + row['itemName'] + "</div><div>" + row['itemPrice'] + "</div><div>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button>");
+
+
+                });
+
+
+
+            });
+            $("#imageDisplay").empty();
+            $("#description").empty();
+
+        }
+        function loadNextPage() {
+            // document.getElementById("imageDisplay").display = "none";
+            // document.getElementById("name").display = "none";
+            // document.getElementById("description").display = "none";
+            // document.getElementById("price").display = "none";
+            // document.getElementById("subtotal").display = "none";
+            window.onbeforeunload = function (e) {
+                localStorage.clear();
+            }
+
+
+
+            console.log("INSIDE LOADNEXTPAGE");
+
+            if (typeof (Storage) !== undefined) {
+
+                if (localStorage.clickCount) {
+                    if (localStorage.clickCount == 3) {
+                        localStorage.clickCount = 3;
+                    }
+                    else {
+                        localStorage.clickCount = Number(localStorage.clickCount) + 1;
+                    }
+                }
+                else {
+
+                    localStorage.clickCount = 2;
+                }
+            }
+            var p;
+            console.log("clickcount=" + localStorage.clickCount);
+
+            var presentCategory = $("#presentCategory").text();
+            if (!presentCategory) {
+                presentCategory = "Books";
+            }
+
+
+
+
+            console.log("present category is " + presentCategory);
+
+            var page = localStorage.clickCount;
+            $.getJSON("handleItemDisplay.php?show=" + presentCategory + "&page=" + page, function (item) {
+                console.log("inside get jSON function");
+                $(item).each(function (i, row) {
+                    console.log("inside each element of item");
+                    console.log("i is=" + i);
+                    console.log("row is =" + row);
+                    $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
+                    
+                    $("#description").append("<div>" + row['itemName'] + "</div><div>" + row['itemPrice'] + "</div><div>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button>");
+
+
+                });
+
+
+
+            });
+            $("#imageDisplay").empty();
+            $("#description").empty();
+        }
+        function loadCategories() {
+            // document.getElementById("imageDisplay").display = "none";
+            // document.getElementById("name").display = "none";
+            // document.getElementById("description").display = "none";
+            // document.getElementById("price").display = "none";
+            // document.getElementById("subtotal").display = "none";
+
+
+            $.getJSON("handleCategoryDisplay.php?show=category", function (category) {
+
+                $(category).each(function (i, row) {
+                    // console.log("working");
+                    // console.log(row['itemCategory']);
+                    $("#category").append("<div onclick=\"loadCategoryFirstPage(this)\">" + row['itemCategory'] + "</div>");
+                });
+
+
+            });
+        }
+
+        function loadInitialPage() {
+            // document.getElementById("imageDisplay").display = "none";
+            // document.getElementById("name").display = "none";
+            // document.getElementById("description").display = "none";
+            // document.getElementById("price").display = "none";
+            // document.getElementById("subtotal").display = "none";
+
+            console.log("inside load initial page");
+            var page = 1;
+            $.getJSON("handleItemDisplay.php?show=Books&page=" + page, function (item) {
+                console.log("inside get jSON function");
+                $(item).each(function (i, row) {
+                   
+                    console.log("inside each element of item");
+                    console.log("i is=" + i);
+                    console.log("row is =" + row);
+                    console.log("image is="+row['itemImage']);
+                   
+                    $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
+                    // $("#imageDisplay").attr("src",searchPic);
+                    
+                    $("#description").append("<div>" + row['itemName'] + "</div><div>" + row['itemPrice'] + "</div><div>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button>");
+
+
+                });
+
+
+
+            });
+            $("#imageDisplay").empty();
+            $("#description").empty();
+
+        }
+
+
+    </script>
+</body>
+
+</html>

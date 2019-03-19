@@ -1,0 +1,77 @@
+
+body{
+    background-color: bisque;
+    height:100%;
+}
+
+.flex-row{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.flex-column{
+    display: flex;
+    flex-direction: column;
+    height:100%;
+    flex:1;
+}
+
+.styleheader1{
+    justify-content: flex-start;
+    flex-grow: 7;
+}
+
+.fa{
+    justify-content: flex-end;
+    flex-grow: 2;
+
+    color: lightblue;
+    top: 20px;
+}
+
+#category{
+flex-grow:2;
+padding: 5px 5px 5px 5px;
+}
+
+#description{
+flex-grow: 5;
+
+}
+
+#itemDisplay{
+    flex-grow: 3;
+
+}
+header{
+    flex-grow:2;
+}
+
+section{
+    flex-grow:6;
+}
+
+footer{
+
+    flex-grow: 2;
+}
+
+.previous{
+
+    flex-grow: 3;
+}
+
+.next{
+
+flex-grow: 3;
+}
+
+.pageDropdown{
+
+    flex-grow:4;
+}
+
+.itemInCart{
+flex-grow:1;
+}
