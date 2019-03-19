@@ -1,6 +1,4 @@
-body{
-    background-color: #330303;
-}
+
 *{
     box-sizing: border-box;
 }
@@ -31,10 +29,10 @@ img{
 
 
 .top{
-    background-color: #794c4c;
+    background-color: #171616;
     display:flex;
     flex-wrap:wrap;
-    color: #f9ebeb;
+    color: #dead37;
     padding: 30px;
 
     
@@ -47,9 +45,9 @@ img{
     flex-grow: 7; */
 }
 .end{
-    color: antiquewhite;
-    background-color: #441414;
-    
+    color: #171616;
+    background-color: #dead37;
+    font-weight: bold;
     display:flex;
     flex-wrap:wrap;
     padding: 0 4px;
@@ -80,38 +78,46 @@ formatting middle elements
 #category{
    flex:10%;
    padding:30px;
-   background-color: #794c4c;
+   background-color: #171616;
+  
 }
 
 #imageDisplay{
     flex:20%;
     padding:20px;
     
-    background-color: #c38a8a;
+   
 
 }
 #description{
     padding:50px;
    flex:50%;
-   background-color: #bb8f8f;
-   color: #f7efe4;
+   
+   
   
 }
 
 #quantity{
 display:none;
+flex:20%;
+padding-top:100px;
 }
 #price{
 display: none;
+flex:20%;
+
 }
 #name{
 display: none;
+flex:20%;
+padding-top: 100px;
 }
 /*
 formatting end elements
 */
 
 .previous{
+    
 flex:10%;
 }
 .pageDropdown{
@@ -122,12 +128,15 @@ flex:10%;
 }
 #checkOut{
 display:none;
+flex:10%;
 }
 #subtotal{
 display:none;
+flex:10%;
 }
 #subtotalPrice{
 display:none;
+flex:10%;
 }
 
 /*
@@ -160,48 +169,70 @@ top:50%;
 }
 #descPrice{
     font-weight: bold;
+    color:b
     }
-
-
+#descName{
+    text-transform: uppercase;
+}
+#descDesc{
+    font-style: italic;
+}
 #eachCateg{
-    color: #e4e4d8;
+    color: #dead37;
     padding:20px;
     text-transform: uppercase;
 }
 
-
 #eachCateg:hover{
-    background-color:gray;
+    background-color: #6f6b5f;
     cursor: pointer;
     padding:21px;
     text-transform: uppercase;
 }
-p.next:hover{
-    background-color: #b39191;
+.next{
+
+    text-align: center;
+}
+.previous{
+    text-align: center;
+}
+.next:hover{
+    cursor:pointer;
+    text-transform: uppercase;
 }
 
-p.previous:hover{
-
-    background-color: #b39191;
+.previous:hover{
+    cursor: pointer;
+    text-transform: uppercase;
 }
 
 #btn{
-
+    
+    font-size: medium;
     height:50px;
     width: 186px;
     text-transform: uppercase;
     cursor:pointer;
     
-    color: #060300;
-    background-color: #d0a06e;
+    color: #171616;
+    background-color: #dead37;
 }
 
 #btn:hover{
-    background-color: #a9630c;
+    background-color: #fbdf78;
 }
 
-#btn:active{
-    background-color: #9a480e;
-    transform: translateY(4px);
-   
+#final{
+
+    display:none;
+}
+
+#finalP{
+
+    display:none;
+}
+
+#finalC{
+
+    display:none;
 }

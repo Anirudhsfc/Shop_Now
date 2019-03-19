@@ -45,9 +45,11 @@
             <div id="quantity" onchange="changeCartValue()">
 
             </div>
-            <h1 hidden id="final"></h1>
+           
         </div>
-
+        <h1 id="final"></h1>
+        <h2 id="finalP"></h2>
+        <h2 id="finalC"></h2>
         <div class="end flex-row">
             <div id="subtotal">
 
@@ -66,12 +68,12 @@
 
             </select>
             <p class="next" onclick="loadNextPage()">Next Page</p>
-
+            
         </div>
 
     </div>
     <div class="clickDisplay"></div>
-
+    
     <p hidden id="presentCategory"></p>
 
 
@@ -92,6 +94,11 @@
         // }
 
         function checkOut() {
+            $('.middle').hide();
+            $('.end').hide();
+            $('#final').show();
+            $('#finalP').show();
+            $('#finalC').show();
             $.getJSON("handleAddToCart.php?itemID=" + -1 + "&updateNumber=" + 0, function (numOfItems) {
 
                 var bill=document.getElementById("subtotalPrice").innerText;
@@ -100,7 +107,9 @@
                 $('#itemsInCart').text(0);
                 $('#final').text("You have successfully placed order for " + numOfItems + "items");
                 console.log("total price you are paying is"+bill);
-                
+                $('#finalP').text("$"+bill+"  Paid");
+                $('#finalC').text("Continue Browsing");
+
 
             });
 
@@ -166,15 +175,18 @@
             $("#quantity").empty();
 
 
-            // document.getElementById("category").display = "none";
-            // document.getElementsByClassName("previous").display = "none";
-            // document.getElementsByClassName("next").display = "none";
-
-            // document.getElementById("imageDisplay").display = "block";
-            // document.getElementById("name").display = "block";
-            // document.getElementById("description").display = "block";
-            // document.getElementById("price").display = "block";
-            // document.getElementById("subtotal").display = "block";
+            $("#category").hide();
+            $(".previous").hide();
+            $(".next").hide();
+            $(".pageDropdown").hide();
+            $("#name").show();
+            $("#checkOut").show();
+            $("#subtotalPrice").show();
+            $("#price").show();
+            $("#subtotal").show();
+            $("#quantity").show();
+            $("#description").css({"flex":"20%"});
+           
             // document.getElementsByClassName("styleheader1").innerHTML = "Shopping Cart";
             $.getJSON("handleCartContent.php", function (item) {
                 console.log("inside get jSON function of change html");
@@ -183,11 +195,11 @@
                     total = total + row['subtotalPrice'];
                     console.log("ROW ITEM ID" + row['itemID']);
                     $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
-                    $("#name").append("<div>" + row['itemName'] + "</div>");
-                    $("#description").append("<div>" + row['itemDescription'] + "</div>");
-                    $("#price").append("<div>" + row['itemPrice'] + "</div>");
+                    $("#name").append("<div id=\'outerDiv\'>" + row['itemName'] + "</div>");
+                    $("#description").append("<div id=\'outerDiv\'>" + row['itemDescription'] + "</div>");
+                    $("#price").append("<div id=\'outerDiv\'>" + row['itemPrice'] + "</div>");
 
-                    $("#quantity").append("<input id=\'" + row['itemPrice'] + "\'type=\'number\' min=\'0\' placeholder=\'" + row['itemID'] + "\' defaultValue=\'" + row['itemQuantity'] + "\' value=\'" + row['itemQuantity'] + "\' onchange=\'changeCartValue(this)\' ></input>");
+                    $("#quantity").append("<div id=\'outerDiv\'><input id=\'" + row['itemPrice'] + "\'type=\'number\' min=\'0\' placeholder=\'" + row['itemID'] + "\' defaultValue=\'" + row['itemQuantity'] + "\' value=\'" + row['itemQuantity'] + "\' onchange=\'changeCartValue(this)\' ></input></div>");
                     $("#subtotal").text(row['numOfItems']);
 
                 });
