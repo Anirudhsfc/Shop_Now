@@ -5,23 +5,23 @@
 <head>
     <script src="jquery-3.3.1.js"></script>
     <title>E-Commerce WEBSITE</title>
-
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body onload="loadCategories(); loadInitialPage(); loadCartNumber()">
 
     <div class="flex-column">
-        <header class="flex-row">
+        <div class="top flex-row">
             
 
-
-            <i class="fa fa-shopping-cart" style="font-size: 40px;" onclick="changeHTML()"></i>
+            <h2>Shop Now</h2>
+            <i class="fa fa-shopping-cart " style="font-size: 40px;" onclick="changeHTML()"></i>
             <p id="itemsInCart"></p>
-        </header>
+        </div>
 
-        <section class="flex-row">
+        <div class="middle flex-row">
 
 
             <div id="category">
@@ -46,9 +46,9 @@
 
             </div>
             <h1 hidden id="final"></h1>
-        </section>
+        </div>
 
-        <footer class="flex-row">
+        <div class="end flex-row">
             <div id="subtotal">
 
             </div>
@@ -67,7 +67,7 @@
             </select>
             <p class="next" onclick="loadNextPage()">Next Page</p>
 
-        </footer>
+        </div>
 
     </div>
     <div class="clickDisplay"></div>
@@ -248,7 +248,7 @@
                     console.log("i is=" + i);
                     console.log("row is =" + row);
                     $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
-                    $("#description").append("<div>" + row['itemName'] + "</div><div>" + row['itemPrice'] + "</div><div>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button>");
+                    $("#description").append("<div id=\'outerDiv\'><div id=\'descName\'>" + row['itemName'] + "</div><div id=\'descPrice\'>" + row['itemPrice'] + "</div><div id=\'descDesc\'>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button></div>");
 
 
                 });
@@ -282,7 +282,7 @@
 
                     console.log("row name is =" + row['itemName']);
                     $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
-                    $("#description").append("<div>" + row['itemName'] + "</div><div>" + row['itemPrice'] + "</div><div>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button>");
+                    $("#description").append("<div id=\'outerDiv\'><div id=\'descName\'>" + row['itemName'] + "</div><div id=\'descPrice\'>" + row['itemPrice'] + "</div><div id=\'descDesc\'>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button></div>");
                     $("#presentCategory").text(elemClicked.innerHTML);
 
                 });
@@ -329,7 +329,7 @@
                     console.log("i is=" + i);
                     console.log("row is =" + row);
                     $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
-                    $("#description").append("<div>" + row['itemName'] + "</div><div>" + row['itemPrice'] + "</div><div>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button>");
+                    $("#description").append("<div id=\'outerDiv\'><div id=\'descName\'>" + row['itemName'] + "</div><div id=\'descPrice\'>" + row['itemPrice'] + "</div><div id=\'descDesc\'>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button></div>");
 
 
                 });
@@ -392,7 +392,7 @@
                     console.log("row is =" + row);
                     $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
                     
-                    $("#description").append("<div>" + row['itemName'] + "</div><div>" + row['itemPrice'] + "</div><div>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button>");
+                    $("#description").append("<div id=\'outerDiv\'><div id=\'descName\'>" + row['itemName'] + "</div><div id=\'descPrice\'>" + row['itemPrice'] + "</div><div id=\'descDesc\'>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button></div>");
 
 
                 });
@@ -416,7 +416,7 @@
                 $(category).each(function (i, row) {
                     // console.log("working");
                     // console.log(row['itemCategory']);
-                    $("#category").append("<div onclick=\"loadCategoryFirstPage(this)\">" + row['itemCategory'] + "</div>");
+                    $("#category").append("<div id=\'eachCateg\'onclick=\"loadCategoryFirstPage(this)\">" + row['itemCategory'] + "</div>");
                 });
 
 
@@ -441,10 +441,10 @@
                     console.log("row is =" + row);
                     console.log("image is="+row['itemImage']);
                    
-                    $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \' height=\'100\' width=\'100\' >");
+                    $("#imageDisplay").append("<img src=\'"+row['itemImage']+"\'  alt=\'image nhi hui load \'  >");
                     // $("#imageDisplay").attr("src",searchPic);
                     
-                    $("#description").append("<div>" + row['itemName'] + "</div><div>" + row['itemPrice'] + "</div><div>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button>");
+                    $("#description").append("<div id=\'outerDiv\'><div id=\'descName\'>" + row['itemName'] + "</div><div id=\'descPrice\'>" + row['itemPrice'] + "</div><div id=\'descDesc\'>" + row['itemDescription'] + "</div><button id=\'btn\' onclick=\'addToCart(" + row['itemID'] + ")\'>" + row['button'] + "</button></div>");
 
 
                 });

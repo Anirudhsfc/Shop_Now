@@ -1,4 +1,8 @@
+img{
 
+    height:200px;
+    width:200px;
+}
 body{
     background-color: bisque;
     height:100%;
@@ -21,8 +25,15 @@ body{
     justify-content: flex-start;
     flex-grow: 7;
 }
-
-.fa{
+#itemsInCart{
+    display:flex;
+    justify-content: flex-end;
+    flex-grow:1;
+    font-weight: bold;
+    
+}
+.fa-shopping-cart{
+    display: flex;
     justify-content: flex-end;
     flex-grow: 2;
 
@@ -42,6 +53,7 @@ flex-grow: 5;
 
 #itemDisplay{
     flex-grow: 3;
+    
 
 }
 header{
