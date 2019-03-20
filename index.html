@@ -105,6 +105,7 @@
             $('#final').show();
             $('#finalP').show();
             $('#finalC').show();
+            $('#checkOut').hide();
             $.getJSON("handleAddToCart.php?itemID=" + -1 + "&updateNumber=" + 0, function (numOfItems) {
 
                 var bill=document.getElementById("subtotalPrice").innerText;
@@ -324,6 +325,9 @@
                 localStorage.clear();
             }
             var presentCategory = $("#presentCategory").text();
+            if (!presentCategory) {
+                presentCategory = "Books";
+            }
             if (typeof (Storage) !== undefined) {
 
                 if (localStorage.clickCount) {
